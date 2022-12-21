@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -47,6 +48,8 @@ INSTALLED_APPS = [
     "redoc",
     "rest_framework_swagger",
     "corsheaders",
+    'django_filters',
+    'djoser',
 ]
 
 MIDDLEWARE = [
@@ -80,14 +83,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "skymarket.wsgi.application"
 
-# TODO здесь мы настраиваем аутентификацию и пагинацию
+
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ),
+    "DEFAULT_AUTHENTICATION_CLASSES": ["rest_framework_simplejwt.authentication.JWTAuthentication"],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 4
 }
 # TODO здесь мы настраиваем Djoser
 DJOSER = {
+    'SEND_ACTIVATION_EMAIL': True,
+    'SERIALIZERS': {'current_user': 'users.serializers.CurrentUserSerializer',
+                    'user': 'users.serializers.CurrentUserSerializer'},
+    'ACTIVATION_URL': 'api/users/{uid}'
 }
 
 # Database
@@ -96,9 +103,9 @@ DJOSER = {
 
 DATABASES = {
     'default': {
-        'DB_ENGINE': os.environ.get('DB_ENGINE'),
+        'ENGINE': os.environ.get('DB_ENGINE'),
         'HOST': os.environ.get("DB_HOST"),
-        'NAME': os.environ.get("POSTGRES_NAME"),
+        'NAME': os.environ.get("DB_NAME"),
         'PORT': os.environ.get("DB_PORT"),
         'USER': os.environ.get("DB_USER"),
         'PASSWORD': os.environ.get("DB_PASSWORD"),
@@ -156,7 +163,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # TODO теперь Вам необходимо создать файл .env на основе .env.example
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = True
-EMAIL_HOST = os.environ.get("EMAIL_HOST", "smtp.gmail.com")
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = os.environ.get("EMAIL_PORT")
+
+AUTH_USER_MODEL = 'users.User'
+
+

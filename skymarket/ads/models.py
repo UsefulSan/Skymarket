@@ -8,9 +8,10 @@ from users.models import User
 
 
 class Ad(models.Model):
-    title = models.CharField(max_length=255)
+    image = models.ImageField(upload_to="image/", null=True)
+    title = models.CharField(max_length=200)
     price = models.PositiveSmallIntegerField()
-    description = models.CharField(max_length=255)
+    description = models.CharField(max_length=1000)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
 
@@ -19,7 +20,7 @@ class Ad(models.Model):
 
 
 class Comment(models.Model):
-    text = models.CharField(max_length=255)
+    ad_pk = models.ForeignKey(Ad, on_delete=models.CASCADE)
+    text = models.CharField(max_length=1000)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    ad = models.ForeignKey(Ad, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
