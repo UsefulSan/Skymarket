@@ -2,14 +2,13 @@ from django.urls import include, path
 from djoser.views import UserViewSet
 from rest_framework import routers
 
-from users.views import UserActivationView
+from users.views import UserActivationView, PasswordResetView
 
 router = routers.SimpleRouter()
 router.register('', UserViewSet)
 
 urlpatterns = [
-    # path('', UserViewSet.as_view({'get': 'list', 'post': 'create'})),
-    # path('<int:pk>/', UserViewSet.as_view({'get': 'retrieve'})),
-    path('activate/<uid>/<token>/', UserActivationView.as_view())
+    path('activate/<uid>/<token>/', UserActivationView.as_view()),
+    # path('reset_password_confirm/<uid>/<token>/', PasswordResetView.as_view()),
 ] + router.urls
 

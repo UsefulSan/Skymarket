@@ -11,7 +11,7 @@ User = get_user_model()
 class UserRegistrationSerializer(BaseUserRegistrationSerializer):
     class Meta:
         model = User
-        exclude = ["role"]
+        exclude = ["email", "first_name", "last_name", "password", "phone", "image"]
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -19,10 +19,8 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ["first_name", "last_name", "phone", "id", "email", "image"]
 
+# class UserNewPasswordMailSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ["uid", "token", "new_password"]
 
-
-
-class CurrentUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ["first_name", "last_name", "phone", "id", "email", "image"]

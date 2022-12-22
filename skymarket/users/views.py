@@ -9,10 +9,16 @@ import requests
 
 class UserActivationView(APIView):
     def get(self, request, uid, token):
-        protocol = 'https://' + request.is_secure()
+        protocol = 'https://' if request.is_secure() else 'http://'
         web_url = protocol + request.get_host()
         post_url = web_url + "/api/users/activate/"
         post_data = {'uid': uid, 'token': token}
         result = requests.post(post_url, data=post_data)
         content = result.text
         return Response(content)
+
+
+class PasswordResetView(APIView):
+    def get(self, request, uid, token):
+        post_data = {'uid': uid, 'token': token}
+        return Response(post_data)

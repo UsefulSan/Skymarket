@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 
-
+import djoser
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -92,9 +92,16 @@ REST_FRAMEWORK = {
 # TODO здесь мы настраиваем Djoser
 DJOSER = {
     'SEND_ACTIVATION_EMAIL': True,
-    'SERIALIZERS': {'current_user': 'users.serializers.CurrentUserSerializer',
-                    'user': 'users.serializers.CurrentUserSerializer'},
-    'ACTIVATION_URL': 'api/users/{uid}'
+    'SERIALIZERS': {'user_create': 'users.serializers.UserRegistrationSerializer',
+                    'user': 'users.serializers.UserSerializer',
+                    'current_user': 'users.serializers.UserSerializer',
+                    # 'password_reset_confirm': 'users.serializers.UserNewPasswordMailSerializer'
+                    # Почему приходит 204 статус при post запросе замены пароля по почте
+                    # 'password_reset_confirm': 'djoser.serializers.PasswordResetConfirmSerializer'
+                    # должен возвращаться 201
+                    },
+    'ACTIVATION_URL': 'api/users/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL': 'api/users/reset_password/{uid}/{token}',
 }
 
 # Database
@@ -162,11 +169,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # TODO эти переменные мы добавили чтобы помочь Вам настроить почтовый ящик на django.
 # TODO теперь Вам необходимо создать файл .env на основе .env.example
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_USE_TLS = True
+# EMAIL_USE_TLS = True # for google mail
+EMAIL_USE_SSL = True # for yandex mail
 EMAIL_HOST = os.environ.get("EMAIL_HOST")
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = os.environ.get("EMAIL_PORT")
+DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER")
 
 AUTH_USER_MODEL = 'users.User'
 
