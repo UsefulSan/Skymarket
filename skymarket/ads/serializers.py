@@ -1,15 +1,11 @@
 from rest_framework import serializers
 
-from ads.models import Ad
+from ads.models import Ad, Comment
 
 from users.models import User
 
 
 # TODO Сериалайзеры. Предлагаем Вам такую структуру, однако вы вправе использовать свою
-
-class CommentSerializer(serializers.ModelSerializer):
-    # TODO сериалайзер для модели
-    pass
 
 
 class AdSerializer(serializers.ModelSerializer):
@@ -30,3 +26,20 @@ class AdMeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ad
         fields = ["pk", "image", "title", "price", "description"]
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    author = serializers.SlugRelatedField(slug_field='id', queryset=User.objects.all(), required=False)
+    author_last_name = serializers.CharField(source='author.last_name', required=False)
+    author_first_name = serializers.CharField(source='author.first_name', required=False)
+    ad_pk = serializers.SlugRelatedField(slug_field='id', queryset=Ad.objects.all(), required=False)
+    author_image = serializers.ImageField(source='author.image', required=False)
+
+    class Meta:
+        model = Comment
+        fields = ["pk", "text", "author", "created_at", 'author_first_name',
+                  'author_last_name', 'ad_pk', 'author_image']
+
+    def create(self, validated_data):
+        request = self.context.get('request', None)
+        return Comment.objects.create(**validated_data, author_id=request.user.id)
