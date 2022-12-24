@@ -7,6 +7,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext_lazy as _
 from users.managers import UserManager
 
+
 class UserRoles(Enum):
     admin = "admin"
     user = "user"

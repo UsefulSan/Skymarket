@@ -8,7 +8,6 @@ router = routers.SimpleRouter()
 router.register('', UserViewSet)
 
 urlpatterns = [
-    path('activate/<uid>/<token>/', UserActivationView.as_view()),
-    # path('reset_password_confirm/<uid>/<token>/', PasswordResetView.as_view()),
-] + router.urls
-
+                  path('activate/<uid>/<token>/', UserActivationView.as_view()),
+                  # path('reset_password_confirm/<uid>/<token>/', PasswordResetView.as_view()),
+              ] + router.urls

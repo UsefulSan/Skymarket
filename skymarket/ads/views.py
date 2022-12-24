@@ -11,11 +11,6 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from ads.permissions import AdUpdatePermission, CommentUpdatePermission
 
 
-class AdPagination(pagination.PageNumberPagination):
-    pass
-
-
-# TODO view функции. Предлагаем Вам следующую структуру - но Вы всегда можете использовать свою
 class AdViewSet(viewsets.ModelViewSet):
     queryset = Ad.objects.all()
     serializer_class = AdSerializer

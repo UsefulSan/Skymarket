@@ -6,7 +6,6 @@ from django.db import models
 from users.models import User
 
 
-
 class Ad(models.Model):
     image = models.ImageField(upload_to="image/", null=True)
     title = models.CharField(max_length=200)

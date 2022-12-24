@@ -5,9 +5,6 @@ from ads.models import Ad, Comment
 from users.models import User
 
 
-# TODO Сериалайзеры. Предлагаем Вам такую структуру, однако вы вправе использовать свою
-
-
 class AdSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(slug_field='id', queryset=User.objects.all(), required=False)
     author_last_name = serializers.CharField(source='author.last_name', required=False)
