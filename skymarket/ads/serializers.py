@@ -40,6 +40,10 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ["pk", "text", "author", "created_at", 'author_first_name',
                   'author_last_name', 'ad_pk', 'author_image']
 
+    def is_valid(self, raise_exception=False):
+        self._items = self.initial_data.pop("author", None)
+        return super().is_valid(raise_exception=raise_exception)
+
     def create(self, validated_data):
         request = self.context.get('request', None)
         return Comment.objects.create(**validated_data, author_id=request.user.id)
