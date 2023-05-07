@@ -1,6 +1,6 @@
 from rest_framework.permissions import BasePermission
 
-from ads.models import Ad, Comment
+from skymarket.ads.models import Ad, Comment
 
 
 class AdUpdatePermission(BasePermission):

@@ -1,9 +1,9 @@
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from users.models import User
+from skymarket.users.models import User
 
-from users.serializers import UserSerializer
+from skymarket.users.serializers import UserSerializer
 import requests
 
 

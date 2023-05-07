@@ -1,7 +1,7 @@
-from django.urls import include, path
-
-from ads.views import AdViewSet, AdMeView, CommentViewSet
+from django.urls import path
 from rest_framework import routers
+
+from skymarket.ads.views import AdViewSet, AdMeView, CommentViewSet
 
 router = routers.SimpleRouter()
 router.register('', AdViewSet)

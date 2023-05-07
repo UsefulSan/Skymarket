@@ -1,14 +1,11 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import pagination, viewsets
-
-from ads.serializers import AdSerializer, AdMeSerializer, CommentSerializer
-
-from ads.models import Ad, Comment
-
+from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
-from ads.permissions import AdUpdatePermission, CommentUpdatePermission
+from skymarket.ads.models import Ad, Comment
+from skymarket.ads.permissions import AdUpdatePermission, CommentUpdatePermission
+from skymarket.ads.serializers import AdSerializer, AdMeSerializer, CommentSerializer
 
 
 class AdViewSet(viewsets.ModelViewSet):
